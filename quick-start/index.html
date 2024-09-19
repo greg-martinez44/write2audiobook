@@ -46,7 +46,9 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Quick Start</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#prequisites">Prequisites</a>
+    <li class="toctree-l2"><a class="reference internal" href="#clone-the-repository">Clone the repository</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#create-a-virtual-environment">Create a virtual environment</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#convert-a-text-based-file-to-an-audiobook">Convert a text-based file to an audiobook</a>
     </li>
@@ -88,18 +90,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h2 id="quick-start-guide-for-write2audiobook">Quick start guide for Write2Audiobook</h2>
+                <h2 id="quick-start-guide">Quick start guide</h2>
 <p>Follow this tutorial to learn how to use Write2Audiobook.</p>
-<h3 id="prequisites">Prequisites</h3>
-<p>Before you begin, clone the repository and install the packages from the <code>requirements</code> file.</p>
+<h3 id="clone-the-repository">Clone the repository</h3>
+<p>Clone the repository to your computer.</p>
 <pre><code class="language-bash">git clone https://github.com/deangelisdf/write2audiobook.git
-cd write2audiobook
-python3 -m pip install -r requirements
 </code></pre>
+<h3 id="create-a-virtual-environment">Create a virtual environment</h3>
+<p>To keep your workspace clean and to prevent conflicts with previously installed libraries, create a virtual environment.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>
-If you're on a linux system, you must install additional packages:<br>
+If you're on a Linux system, you must install additional packages:<br>
     <code>sudo apt update &amp;&amp; sudo apt install espeak ffmpeg libespeak1 -y</code></p>
 </div>
 <h3 id="convert-a-text-based-file-to-an-audiobook">Convert a text-based file to an audiobook</h3>
@@ -109,14 +111,14 @@ If you're on a linux system, you must install additional packages:<br>
 <p>To convert a plain text file to an audiobook:</p>
 <pre><code class="language-bash">python3 txt2audio.py text.txt
 </code></pre>
-<p>To convert a PowerPoint presentation (PPTX file) to an audiobook:</p>
+<p>To convert a PowerPoint presentation (PPTX) to an audiobook:</p>
 <pre><code class="language-bash">python3 pptx2audio.py presentation.pptx
 </code></pre>
 <p>To convert a Word document (DOCX) to an audiobook:</p>
 <pre><code class="language-bash">python3 docx2audio.py document.docx
 </code></pre>
 <h3 id="enjoy-your-audiobook">Enjoy your audiobook</h3>
-<p>Write2Audio saves your audiobook as an MP3 file in your current directory. It will have the same name as the file you converted.</p>
+<p>Write2Audio saves your audiobook as an MP3 file in the current directory. It will have the same name as the converted file.</p>
 <pre><code class="language-bash">python3 txt2audio.py test.txt
 </code></pre>
 <p><img alt="directory-image" src="../img/example-output.png" /></p>
