@@ -6,15 +6,15 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="In-depth guide to the txt2audio script.">
+        <meta name="description" content="Instructions on converting plain text files to MP3.">
       
       
       
       
-        <link rel="prev" href="../../quick-start/">
+        <link rel="prev" href="../install-libraries/">
       
       
-        <link rel="next" href="../../about/release-notes/">
+        <link rel="next" href="../docx-to-audio/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Text to audio - Write2Audiobook</title>
+        <title>Text files - Write2Audiobook</title>
       
     
     
@@ -63,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#run-the-script" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -95,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Text to audio
+              Text files
             
           </span>
         </div>
@@ -208,7 +213,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../download-scripts/" class="md-tabs__link">
           
   
   User guide
@@ -375,6 +380,48 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../download-scripts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Download the scripts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../install-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Install libraries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -385,16 +432,125 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Text files
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    Convert text to audio
+    Text files
   </span>
   
 
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run the script
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#view-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      View the output
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docx-to-audio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Word documents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pptx-to-audio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PowerPoint presentations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ebook-to-audio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ebooks
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -533,6 +689,32 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#run-the-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run the script
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#view-the-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      View the output
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -562,9 +744,35 @@
   
 
 
-  <h1>Convert text to audio</h1>
+  <h1>Text files</h1>
 
-
+<p>This page explains how to use the <code>txt2audio.py</code> script to convert plain text files to MP3 files.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Text files you want to convert must meet these requirements:</p>
+<ul>
+<li>The file encoding must be <strong>UTF-8</strong>.</li>
+<li>The file extension must be <strong>.txt</strong>.</li>
+</ul>
+</div>
+<h2 id="run-the-script">Run the script<a class="headerlink" href="#run-the-script" title="Permanent link">&para;</a></h2>
+<p>To convert a TXT file to an MP3 file:</p>
+<ol>
+<li><a href="./installation.md">Download the script</a> and then <a href="../install-libraries/">install the required libraries</a>.</li>
+<li>
+<p>In your terminal, go to the Write2Audiobook project's root directory.</p>
+<div class="highlight"><pre><span></span><code><span class="go">cd write2audiobook</span>
+</code></pre></div>
+</li>
+<li>
+<p>Run the <code>txt2audio.py</code> script.</p>
+<div class="highlight"><pre><span></span><code><span class="go">python3 txt2audio.py path/to/file/test.txt</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="view-the-output">View the output<a class="headerlink" href="#view-the-output" title="Permanent link">&para;</a></h2>
+<p>Look for the MP3 file in your current directory to confirm the conversion was successful.</p>
+<p><img alt="successful-conversion" src="../../img/example-output.png" /></p>
 
 
 
