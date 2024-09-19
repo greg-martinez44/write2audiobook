@@ -50,6 +50,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#create-a-virtual-environment">Create a virtual environment</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-required-libraries">Install required libraries</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#convert-a-text-based-file-to-an-audiobook">Convert a text-based file to an audiobook</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#enjoy-your-audiobook">Enjoy your audiobook</a>
@@ -98,10 +100,22 @@
 </code></pre>
 <h3 id="create-a-virtual-environment">Create a virtual environment</h3>
 <p>To keep your workspace clean and to prevent conflicts with previously installed libraries, create a virtual environment.</p>
+<pre><code class="language-bash">python -m venv .venv
+</code></pre>
+<p>If you are on a Windows system, run the following command to activate your virtual environment:</p>
+<pre><code class="language-powershell">.venv\Scripts\Activate.ps1
+</code></pre>
+<p>If you are on a macOS or Linux system, run the following command to activate your virtual environment:</p>
+<pre><code class="language-bash">source .venv/bin/activate
+</code></pre>
+<h3 id="install-required-libraries">Install required libraries</h3>
+<p>Use <code>pip</code> to install the required libraries in your virtual environment.</p>
+<pre><code class="language-bash">python -m pip install -r requirements
+</code></pre>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>
-If you're on a Linux system, you must install additional packages:<br>
+If you're on a Linux system, you must install additional system packages:<br>
     <code>sudo apt update &amp;&amp; sudo apt install espeak ffmpeg libespeak1 -y</code></p>
 </div>
 <h3 id="convert-a-text-based-file-to-an-audiobook">Convert a text-based file to an audiobook</h3>
