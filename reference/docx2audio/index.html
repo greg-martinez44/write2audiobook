@@ -1141,9 +1141,7 @@ Title (with style like Heading1 and Title) and corpus (other styles).</p>
 
             <details class="quote">
               <summary>Source code in <code>docx2audio.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span>
@@ -1165,7 +1163,9 @@ Title (with style like Heading1 and Title) and corpus (other styles).</p>
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_chapters</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span><span class="n">Document</span><span class="p">,</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">extract_chapters</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span><span class="n">Document</span><span class="p">,</span>
                      <span class="n">style_start_chapter_name</span><span class="p">:</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">TITLE_TOKENS</span>
                      <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Paragraph</span><span class="p">,</span> <span class="n">Table</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract chapters as list of paragraphs and table, the chapter are structured as</span>
@@ -1218,7 +1218,7 @@ starting from docx format to pure textual, adding sugar context information.</p>
               (<code><span title="typing.List">List</span>[<span title="typing.Union">Union</span>[<span title="docx.text.paragraph.Paragraph">Paragraph</span>, <span title="docx.table.Table">Table</span>]]</code>)
           –
           <div class="doc-md-description">
-            <p>A list of Paragraphs and Tables. Comprises the text in the original Word document.</p>
+            <p>A list of Paragraphs and Tables.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
@@ -1247,9 +1247,7 @@ starting from docx format to pure textual, adding sugar context information.</p>
 
             <details class="quote">
               <summary>Source code in <code>docx2audio.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
@@ -1279,13 +1277,15 @@ starting from docx format to pure textual, adding sugar context information.</p>
 <span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_text_from_chapter</span><span class="p">(</span><span class="n">chapter_doc</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Paragraph</span><span class="p">,</span> <span class="n">Table</span><span class="p">]],</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_text_from_chapter</span><span class="p">(</span><span class="n">chapter_doc</span><span class="p">:</span><span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Paragraph</span><span class="p">,</span> <span class="n">Table</span><span class="p">]],</span>
                           <span class="n">language</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it-IT&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate an intermediate representation in textual version,</span>
 <span class="sd">    starting from docx format to pure textual, adding sugar context information.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        chapter_doc: A list of Paragraphs and Tables. Comprises the text in the original Word document.</span>
+<span class="sd">        chapter_doc: A list of Paragraphs and Tables.</span>
 <span class="sd">        language: The desired language abbreviation.</span>
 
 <span class="sd">    Returns:</span>
@@ -1388,7 +1388,11 @@ contain paragraphs and tables.</p>
 <span class="normal">58</span>
 <span class="normal">59</span>
 <span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">iter_block_items</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="n">_Cell</span><span class="p">,</span> <span class="n">_Row</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Paragraph</span><span class="p">,</span> <span class="n">Table</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">iter_block_items</span><span class="p">(</span>
+    <span class="n">parent</span><span class="p">:</span><span class="n">Union</span><span class="p">[</span><span class="n">Document</span><span class="p">,</span> <span class="n">_Cell</span><span class="p">,</span> <span class="n">_Row</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Paragraph</span><span class="p">,</span> <span class="n">Table</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a reference to each paragraph and table child within *parent*,</span>
 <span class="sd">    in document order. Each returned value is an instance of either Table or</span>
