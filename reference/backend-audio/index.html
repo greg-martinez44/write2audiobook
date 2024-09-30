@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.35">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
       
       
 
@@ -1288,28 +1288,7 @@
 
             <details class="quote">
               <summary>Source code in <code>backend_audio/ffmetadata_generator.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
 <span class="normal">31</span>
@@ -1328,7 +1307,16 @@
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
-<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_ffmetadata</span><span class="p">(</span><span class="n">input_audio_paths</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_ffmetadata</span><span class="p">(</span><span class="n">input_audio_paths</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span>
                         <span class="n">chapter_titles</span><span class="p">:</span><span class="nb">list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">author</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">title</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1341,25 +1329,13 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        metadata: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">starttimes</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">starttimes</span><span class="o">=</span><span class="n">__get_track_times</span><span class="p">(</span><span class="n">input_audio_paths</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">chapter_titles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">chapter_titles</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">#cummulative start time (nanoseconds)</span>
-    <span class="k">for</span> <span class="n">audio_path</span> <span class="ow">in</span> <span class="n">input_audio_paths</span><span class="p">:</span>
-        <span class="n">metadata_audio</span> <span class="p">:</span> <span class="n">audio_metadata</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">mp3</span><span class="o">.</span><span class="n">MP3</span> <span class="o">=</span> <span class="n">audio_metadata</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">audio_path</span><span class="p">)</span>
-        <span class="n">duration_audio</span> <span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">metadata_audio</span><span class="o">.</span><span class="n">streaminfo</span><span class="o">.</span><span class="n">duration</span><span class="o">*</span><span class="mf">1e9</span>
-        <span class="n">time</span> <span class="o">+=</span> <span class="n">duration_audio</span>
-        <span class="n">starttimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">)))</span>
     <span class="c1"># https://ffmpeg.org/ffmpeg-formats.html#Metadata-1</span>
     <span class="c1"># &quot;If the timebase is missing then start/end times are assumed to be in 𝗻𝗮𝗻𝗼𝘀𝗲𝗰𝗼𝗻𝗱𝘀.&quot;</span>
     <span class="c1"># &quot;chapter start and end times in form ‘START=num’, ‘END=num’, where num is a 𝗽𝗼𝘀𝗶𝘁𝗶𝘃𝗲 𝗶𝗻𝘁𝗲𝗴𝗲𝗿.&quot;</span>
-    <span class="n">metadata</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">author</span> <span class="ow">or</span> <span class="n">title</span><span class="p">:</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="s2">&quot;;FFMETADATA1&quot;</span>
-        <span class="k">if</span> <span class="n">author</span><span class="p">:</span>
-            <span class="n">metadata</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metadata</span><span class="si">}</span><span class="se">\n</span><span class="s2">artist=</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
-            <span class="n">metadata</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">metadata</span><span class="si">}</span><span class="se">\n</span><span class="s2">title=</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">__get_ffmetadata1</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
     <span class="n">last_end</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">start_time</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">starttimes</span><span class="p">):</span>
         <span class="n">metadata</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;[CHAPTER]</span><span class="se">\n</span><span class="s2">START=</span><span class="si">{</span><span class="n">last_end</span><span class="si">}</span><span class="se">\n</span><span class="s2">END=</span><span class="si">{</span><span class="n">start_time</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -1424,11 +1400,11 @@
 
             <details class="quote">
               <summary>Source code in <code>backend_audio/m4b.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">221</span>
 <span class="normal">222</span>
-<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">close_edge_tts</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">close_edge_tts</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Need to close the async io process.&quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">loop</span> <span class="c1">#pylint: disable=W0603,W0602</span>
     <span class="k">if</span> <span class="n">loop</span><span class="p">:</span>
@@ -1450,68 +1426,18 @@
 
     <div class="doc doc-contents ">
 
-        <p>Generating audio using tts apis.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-          <b><code>text_in</code></b>
-              (<code>str</code>)
-          –
-          <div class="doc-md-description">
-            <p>The text used to generate the TTS.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-          <b><code>out_mp3_path</code></b>
-              (<code>str</code>)
-          –
-          <div class="doc-md-description">
-            <p>The path to save the result MP3 file.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-          <b><code>lang</code></b>
-              (<code>str</code>, default:
-                  <code>&#39;it&#39;</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The desired language abbreviation.</p>
-          </div>
-        </li>
-        <li class="doc-section-item field-body">
-          <b><code>backend</code></b>
-              (<code>str</code>, default:
-                  <code>&#39;PYTTS&#39;</code>
-)
-          –
-          <div class="doc-md-description">
-            <p>The string name of the TTS engine.</p>
-          </div>
-        </li>
-    </ul>
-
-
-<p><span class="doc-section-title">Returns:</span></p>
-    <ul>
-        <li class="doc-section-item field-body">
-              <code>bool</code>
-          –
-          <div class="doc-md-description">
-            <p>True if the function succesfully saves the MP3 file.</p>
-          </div>
-        </li>
-    </ul>
+        <p>Generating audio using tts apis.
+Arguments:
+    text_in: The text used to generate the TTS.
+    out_mp3_path: The path to save the result MP3 file.
+    lang: The desired language abbreviation.
+    backend: The string name of the TTS engine.
+Returns:
+    True if the function succesfully saves the MP3 file.</p>
 
             <details class="quote">
               <summary>Source code in <code>backend_audio/m4b.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
@@ -1532,16 +1458,16 @@
 <span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
-<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_audio</span><span class="p">(</span><span class="n">text_in</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_audio</span><span class="p">(</span><span class="n">text_in</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
                    <span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it&quot;</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;PYTTS&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generating audio using tts apis.</span>
-
 <span class="sd">    Arguments:</span>
 <span class="sd">        text_in: The text used to generate the TTS.</span>
 <span class="sd">        out_mp3_path: The path to save the result MP3 file.</span>
 <span class="sd">        lang: The desired language abbreviation.</span>
 <span class="sd">        backend: The string name of the TTS engine.</span>
-
 <span class="sd">    Returns:</span>
 <span class="sd">        True if the function succesfully saves the MP3 file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1568,7 +1494,7 @@
 
 
 <h3 id="backend_audio.m4b.generate_audio_edge_tts" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_audio_edge_tts</span><span class="p">(</span><span class="n">text_in</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;it-IT&#39;</span><span class="p">,</span> <span class="n">voice</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate_audio_edge_tts</span><span class="p">(</span><span class="n">text_in</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="n">voice</span><span class="p">)</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
@@ -1604,7 +1530,7 @@ and save it in out_mp3_path path.</p>
         <li class="doc-section-item field-body">
           <b><code>lang</code></b>
               (<code>str</code>, default:
-                  <code>&#39;it-IT&#39;</code>
+                  <code>&#39;it&#39;</code>
 )
           –
           <div class="doc-md-description">
@@ -1655,7 +1581,7 @@ and save it in out_mp3_path path.</p>
 <span class="normal">72</span>
 <span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">generate_audio_edge_tts</span><span class="p">(</span><span class="n">text_in</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
                                   <span class="n">out_mp3_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
-                                  <span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it-IT&quot;</span><span class="p">,</span> <span class="c1"># pylint: disable=W0613</span>
+                                  <span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it&quot;</span><span class="p">,</span> <span class="c1"># pylint: disable=W0613</span>
                                   <span class="n">voice</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate audio with EDGE-TTS starting from text_in string</span>
 <span class="sd">    and save it in out_mp3_path path.</span>
@@ -1682,7 +1608,7 @@ and save it in out_mp3_path path.</p>
 
 
 <h3 id="backend_audio.m4b.generate_audio_gtts" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_audio_gtts</span><span class="p">(</span><span class="n">text_in</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;it-IT&#39;</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate_audio_gtts</span><span class="p">(</span><span class="n">text_in</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;it&#39;</span><span class="p">)</span></code>
 
 <a href="#backend_audio.m4b.generate_audio_gtts" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -1713,7 +1639,7 @@ and save it in out_mp3_path path.</p>
         <li class="doc-section-item field-body">
           <b><code>lang</code></b>
               (<code>str</code>, default:
-                  <code>&#39;it-IT&#39;</code>
+                  <code>&#39;it&#39;</code>
 )
           –
           <div class="doc-md-description">
@@ -1736,8 +1662,7 @@ and save it in out_mp3_path path.</p>
 
             <details class="quote">
               <summary>Source code in <code>backend_audio/m4b.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">106</span>
-<span class="normal">107</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
@@ -1752,7 +1677,8 @@ and save it in out_mp3_path path.</p>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
-<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_audio_gtts</span><span class="p">(</span><span class="n">text_in</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it-IT&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_audio_gtts</span><span class="p">(</span><span class="n">text_in</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate audio using GTTS apis.</span>
 
 <span class="sd">    Arguments:</span>
@@ -1833,8 +1759,7 @@ and save it in out_mp3_path path.</p>
 
             <details class="quote">
               <summary>Source code in <code>backend_audio/m4b.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">124</span>
-<span class="normal">125</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
@@ -1848,7 +1773,8 @@ and save it in out_mp3_path path.</p>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
-<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_audio_pytts</span><span class="p">(</span><span class="n">text_in</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">139</span>
+<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_audio_pytts</span><span class="p">(</span><span class="n">text_in</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">out_mp3_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;it&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate audio using PYTTS apis.</span>
 
 <span class="sd">    Arguments:</span>
@@ -1874,7 +1800,7 @@ and save it in out_mp3_path path.</p>
 
 
 <h3 id="backend_audio.m4b.generate_m4b" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_m4b</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">chapter_paths</span><span class="p">,</span> <span class="n">ffmetadata_path</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate_m4b</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">chapter_paths</span><span class="p">,</span> <span class="n">ffmetadata</span><span class="p">)</span></code>
 
 <a href="#backend_audio.m4b.generate_m4b" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -1903,19 +1829,18 @@ and save it in out_mp3_path path.</p>
           </div>
         </li>
         <li class="doc-section-item field-body">
-          <b><code>ffmetadata_path</code></b>
+          <b><code>ffmetadata</code></b>
               (<code>str</code>)
           –
           <div class="doc-md-description">
-            <p>The path of the ffmetadata file.</p>
+            <p>The ffmetadata file content.</p>
           </div>
         </li>
     </ul>
 
             <details class="quote">
               <summary>Source code in <code>backend_audio/m4b.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
-<span class="normal">155</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
@@ -1931,18 +1856,25 @@ and save it in out_mp3_path path.</p>
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
-<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_m4b</span><span class="p">(</span><span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chapter_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">ffmetadata_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_m4b</span><span class="p">(</span><span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chapter_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">ffmetadata</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the final audiobook starting from MP3s and METADATAs.</span>
 
 <span class="sd">    Arguments:</span>
 <span class="sd">        output_path: The path to save the final audiobook.</span>
 <span class="sd">        chapter_paths: The paths where each chapter was saved.</span>
-<span class="sd">        ffmetadata_path: The path of the ffmetadata file.</span>
+<span class="sd">        ffmetadata: The ffmetadata file content.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">inputs_mp3</span> <span class="o">=</span> <span class="p">[</span><span class="n">ffmpeg</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">cp</span><span class="p">)</span> <span class="k">for</span> <span class="n">cp</span> <span class="ow">in</span> <span class="n">chapter_paths</span><span class="p">]</span>
     <span class="n">joined</span> <span class="o">=</span> <span class="n">ffmpeg</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="o">*</span><span class="n">inputs_mp3</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># Build FFmpeg command for setting metadata</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">ffmpeg</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">joined</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="s1">&#39;mp4&#39;</span><span class="p">,</span> <span class="n">map_metadata</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">audio_bitrate</span><span class="o">=</span><span class="n">BIT_RATE_HUMAN</span><span class="p">)</span>
+    <span class="n">ffmetadata_path</span> <span class="o">=</span> <span class="s2">&quot;ffmetada&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">ffmetadata_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_ffmetadata</span><span class="p">:</span>
+        <span class="n">file_ffmetadata</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ffmetadata</span><span class="p">)</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">global_args</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;ffmetadata&#39;</span><span class="p">,</span> <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="n">ffmetadata_path</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ffmpeg</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
@@ -2015,7 +1947,7 @@ and save it in out_mp3_path path.</p>
 
 
 <h3 id="backend_audio.m4b.get_voices_edge_tts" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_voices_edge_tts</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="n">LANGUAGE_DICT</span><span class="p">[</span><span class="s1">&#39;it-IT&#39;</span><span class="p">])</span></code>
+            <code class="highlight language-python"><span class="n">get_voices_edge_tts</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="n">LANGUAGE_DICT</span><span class="p">[</span><span class="s1">&#39;it&#39;</span><span class="p">])</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
@@ -2034,7 +1966,7 @@ and save it in out_mp3_path path.</p>
         <li class="doc-section-item field-body">
           <b><code>lang</code></b>
               (<code>str</code>, default:
-                  <code><span title="backend_audio.m4b.LANGUAGE_DICT">LANGUAGE_DICT</span>[&#39;it-IT&#39;]</code>
+                  <code><span title="backend_audio.m4b.LANGUAGE_DICT">LANGUAGE_DICT</span>[&#39;it&#39;]</code>
 )
           –
           <div class="doc-md-description">
@@ -2071,7 +2003,7 @@ and save it in out_mp3_path path.</p>
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_voices_edge_tts</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="n">LANGUAGE_DICT</span><span class="p">[</span><span class="s2">&quot;it-IT&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_voices_edge_tts</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="n">LANGUAGE_DICT</span><span class="p">[</span><span class="s2">&quot;it&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;get FEMALE voices in target language from EDGE-TTS.</span>
 
 <span class="sd">    Arguments:</span>
@@ -2121,11 +2053,7 @@ SUPPORTED: EDGE_TTS, PYTTS, GTTS.</p>
 
             <details class="quote">
               <summary>Source code in <code>backend_audio/m4b.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
@@ -2138,7 +2066,11 @@ SUPPORTED: EDGE_TTS, PYTTS, GTTS.</p>
 <span class="normal">187</span>
 <span class="normal">188</span>
 <span class="normal">189</span>
-<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Init back end code per text-to-speech</span>
 <span class="sd">    SUPPORTED: EDGE_TTS, PYTTS, GTTS.</span>
 
@@ -2233,7 +2165,7 @@ SUPPORTED: EDGE_TTS, PYTTS, GTTS.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.tabs.link", "content.code.annotate", "content.code.copy", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.top", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
       
     
   </body>
