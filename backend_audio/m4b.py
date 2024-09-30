@@ -12,7 +12,7 @@ import gtts
 import edge_tts
 import ffmpeg
 
-LANGUAGE_DICT = {"it-IT":"it"}
+LANGUAGE_DICT = {"it":"it"}
 LANGUAGE_DICT_PYTTS = {"it":"italian", "en":"default"}
 voice_edge = "" #pylint: disable=C0103
 
@@ -37,7 +37,7 @@ def get_back_end_tts() -> str:
     }
     return os_engine_map.get(sys.platform, "PYTTS")
 
-async def get_voices_edge_tts(lang:str=LANGUAGE_DICT["it-IT"]) -> List[Dict[str, Any]]:
+async def get_voices_edge_tts(lang:str=LANGUAGE_DICT["it"]) -> List[Dict[str, Any]]:
     """get FEMALE voices in target language from EDGE-TTS.
     
     Arguments:
@@ -54,7 +54,7 @@ async def get_voices_edge_tts(lang:str=LANGUAGE_DICT["it-IT"]) -> List[Dict[str,
     return ret
 async def generate_audio_edge_tts(text_in:str,
                                   out_mp3_path:str, *,
-                                  lang:str="it-IT", # pylint: disable=W0613
+                                  lang:str="it", # pylint: disable=W0613
                                   voice:str) -> bool:
     """Generate audio with EDGE-TTS starting from text_in string
     and save it in out_mp3_path path.
@@ -92,7 +92,8 @@ def __save_tts_audio_gtts(text_to_speech_str:str, mp3_path:str, lang:str) -> boo
     re_try = True
     while re_try:
         try:
-            tts = gtts.gTTS(text_to_speech_str, lang=LANGUAGE_DICT[lang], slow=False, tld="com")
+            tts = gtts.gTTS(text_to_speech_str, lang=LANGUAGE_DICT[lang],
+                            slow=False, tld="com")
             tts.save(mp3_path)
             time.sleep(1)
             re_try = False
@@ -103,7 +104,7 @@ def __save_tts_audio_gtts(text_to_speech_str:str, mp3_path:str, lang:str) -> boo
             return False
     return True
 
-def generate_audio_gtts(text_in:str, out_mp3_path:str, *, lang:str="it-IT") -> bool:
+def generate_audio_gtts(text_in:str, out_mp3_path:str, *, lang:str="it") -> bool:
     """Generate audio using GTTS apis.
     
     Arguments:
@@ -151,18 +152,21 @@ def __sub_audio(audio_generator:Callable[[str, str], bool],
             out = ffmpeg.output(dummy_concat, output_path_mp3, f='mp3')
             out.run()
 
-def generate_m4b(output_path: str, chapter_paths: List[str], ffmetadata_path: str) -> None:
+def generate_m4b(output_path: str, chapter_paths: List[str], ffmetadata: str) -> None:
     """Generate the final audiobook starting from MP3s and METADATAs.
     
     Arguments:
         output_path: The path to save the final audiobook.
         chapter_paths: The paths where each chapter was saved.
-        ffmetadata_path: The path of the ffmetadata file.
+        ffmetadata: The ffmetadata file content.
     """
     inputs_mp3 = [ffmpeg.input(cp) for cp in chapter_paths]
     joined = ffmpeg.concat(*inputs_mp3, v=0, a=1)
     # Build FFmpeg command for setting metadata
     out = ffmpeg.output(joined, output_path, f='mp4', map_metadata=0, audio_bitrate=BIT_RATE_HUMAN)
+    ffmetadata_path = "ffmetada"
+    with open(ffmetadata_path, "w", encoding="UTF-8") as file_ffmetadata:
+        file_ffmetadata.write(ffmetadata)
     out = out.global_args('-f', 'ffmetadata', '-i', ffmetadata_path)
     try:
         ffmpeg.run(out)
@@ -192,13 +196,11 @@ def init(backend:str) -> None:
 def generate_audio(text_in:str, out_mp3_path:str, *,
                    lang:str="it", backend:str="PYTTS") -> bool:
     """Generating audio using tts apis.
-    
     Arguments:
         text_in: The text used to generate the TTS.
         out_mp3_path: The path to save the result MP3 file.
         lang: The desired language abbreviation.
         backend: The string name of the TTS engine.
-
     Returns:
         True if the function succesfully saves the MP3 file.
     """
