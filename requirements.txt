@@ -9,3 +9,4 @@ tinytag
 pypdf
 PyMuPDF
 fonttools
+mkdocs-material
