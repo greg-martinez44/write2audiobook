@@ -166,6 +166,7 @@ cython_debug/
 *.pdf
 *.pptx
 *.ppt
+!**requirements.txt
 
 #ffmpeg metadata
 ffmetada
