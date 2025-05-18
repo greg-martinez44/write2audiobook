@@ -84,7 +84,7 @@ Install the libraries from the `requirements.txt` file:
     cd write2audiobook
     ```
 
-1. [Activate your virtual environment](#activate-a-virtual-environment).
+1. [Activate your virtual environment](#activate-the-virtual-environment).
 1. Run the following command to install the required libraries:
 
     ```console

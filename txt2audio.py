@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """
-file: [txt2audio.py](https://github.com/deangelisdf/write2audiobook/blob/main/txt2audio.py)
+[`txt2audio.py`](https://github.com/deangelisdf/write2audiobook/blob/main/txt2audio.py)
 
-description: Convert your txt (UTF-8) to audiobook in MP3 format.
+Convert a `.txt` file to an MP3 file.
 
 Usage example:
-    `python txt2audio.py document.txt`
+    `python txt2audio.py document.txt en`
 """
 
 import sys
@@ -23,7 +23,6 @@ BACK_END_TTS = m4b.get_back_end_tts()
 LANGUAGE = "it"
 
 def main():
-    """main function"""
     _, output_file_path, language = input_tool.get_sys_input(os.path.dirname(__file__),
                                                    format_output="mp3")
     text:str = ""

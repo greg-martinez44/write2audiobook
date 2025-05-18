@@ -3,7 +3,7 @@ title: Word documents
 description: Instructions on converting Word documents to MP3.
 ---
 
-This page explains how to convert Microsoft Word documents to audio files.
+This page explains how to convert a Microsoft Word document to audio files.
 
 !!! important
     The document's extension must be `.doc` or `.docx`.
@@ -13,7 +13,7 @@ This page explains how to convert Microsoft Word documents to audio files.
 To convert a Microsoft Word document to audio files:
 
 1. Open a terminal window.
-1. [Download the scripts][1]
+1. [Download the scripts][1].
 1. [Install the required libraries][2].
 1. Run the `docx2audio.py` script.
 
@@ -32,7 +32,7 @@ This saves audio files in the current folder.
 
 ## View the output
 
-The script creates MP3 files and plain text files as it converts the Microsoft Word document. For large documents, it may convert multiple MP3 files and text files.
+The script creates MP3 files and plain text files as it converts the Microsoft Word document. For large documents, it may create multiple MP3 files and text files.
 
 For example, if the script creates X number of files:
 

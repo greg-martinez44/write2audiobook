@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """
-file: [ebook2audio.py](https://github.com/deangelisdf/write2audiobook/blob/main/ebook2audio.py)
+[`ebook2audio.py`](https://github.com/deangelisdf/write2audiobook/blob/main/ebook2audio.py)
 
-description: Convert your epub file to audiobook in MP3 format.
+dConvert a `.epub` file to MP3 files.
 
 Usage example:
-    `python ebook2audio.py book.epub`
+    `python ebook2audio.py book.epub en`
 """
 
 import zipfile
@@ -13,7 +13,6 @@ import tempfile
 import os
 import logging
 import codecs
-from typing import Dict, Tuple, List
 from lxml   import etree
 from backend_audio import m4b
 from backend_audio import ffmetadata_generator
@@ -29,24 +28,24 @@ SKIP_IDREF = ["coverpage",
               "copyright"]
 
 def extract_by_epub(epub_path: str, directory_to_extract_path: str) -> None:
-    """Unzip the epub file and extract all in a temp directory.
+    """Unzip the `epub` file to a temporary folder.
 
     Arguments:
-        epub_path: The path to the epub file.
-        directory_to_extract_path: The temp directory to extract epub file to.
+        epub_path: The path to the `epub` file.
+        directory_to_extract_path: The temporary folder to unzip `epub` file to.
     """
     logger.debug("Extracting input to temp directory %s.", directory_to_extract_path)
     with zipfile.ZipFile(epub_path, 'r') as zip_ref:
         zip_ref.extractall(directory_to_extract_path)
 
-def get_guide_epub(root_tree: etree.ElementBase) -> Dict[str, str]:
-    """Get information about the guide information, described in content.opf file.
+def get_guide_epub(root_tree: etree.ElementBase) -> dict[str, str]:
+    """Get the guide information from the `content.opf` file.
 
     Arguments:
-        root_tree: The base of the XML tree in epub contents.
+        root_tree: The XML tree's base from the `epub` file's content.
 
     Returns:
-        A map of the guide XML node types and their hyperlink content.
+        guide_res: A map of the guide XML node types and their hyperlink content.
     """
     guide_res = {}
     for reference in root_tree.xpath("//*[local-name()='package']"
@@ -56,13 +55,13 @@ def get_guide_epub(root_tree: etree.ElementBase) -> Dict[str, str]:
     return guide_res
 
 def prepocess_text(text_in: str) -> str:
-    """Remove possibly non-audible characters.
+    """Remove non-audible characters.
 
     Arguments:
-        text_in: The epub file's text.
+        text_in: The raw `epub` file's content.
 
     Returns:
-        The processed epub file's text.
+        text_out: The processed `epub` file's content.
     """
     text_out = codecs.decode(bytes(text_in, encoding="utf-8"), encoding="utf-8")
     text_out = text_out.replace('\xa0', '')
@@ -72,18 +71,17 @@ def prepocess_text(text_in: str) -> str:
 
 def get_text_from_chapter(root_tree: etree._ElementTree,
                           idref_ch : str, content_dir_path: str,
-                          guide_manifest: Dict[str,str]) -> Tuple[str, Dict[str,str]]:
-    """Starting from content.opf xml tree, extract chapter html path
-       and parse it to achieve the chapter.
-  
+                          guide_manifest: dict[str,str]) -> tuple[str, dict[str,str]]:
+    """Use the `content.opf` XML tree to read and parse a chapter's HTML path.
+
     Arguments:
-        root_tree: The base of the XML tree in epub contents.
-        idref_ch: The XML ID of the chapter.
+        root_tree: The XML tree's base from the `epub` file's content.
+        idref_ch: The chapter's XML ID.
         content_dir_path: The path to the XML file.
         guide_manifest: A map of the guide XML node types and their hyperlink content.
 
     Returns:
-        A tuple of the chapter's text and an empty dictionary.
+        text_result: A tuple of the chapter's text and an empty dictionary.
     """
     text_result = ""
     for href in root_tree.xpath(f"//*[local-name()='package']"
@@ -100,14 +98,14 @@ def get_text_from_chapter(root_tree: etree._ElementTree,
             text_result += '\n'.join(text for text in ptag.itertext())
     return text_result, {}
 
-def get_metadata(root_tree: etree._ElementTree) -> Dict[str,str]:
-    """Extract basic metadata, as title, author and copyrights infos from content.opf.
+def get_metadata(root_tree: etree._ElementTree) -> dict[str,str]:
+    """Get basic metadata, like title, author and copyright information, from the `content.opf` file.
 
     Arguments:
-        root_tree: The base of the XML tree in epub contents.
+        root_tree: The XML tree's base from the `epub` file's content.
 
     Returns:
-        A mapping of node titles and their vlaues from the root_tree.
+        metadata_result: A map of node titles and their values from the XML tree's base.
     """
     metadata_leaf = root_tree.xpath("//*[local-name()='package']/*[local-name()='metadata']")[0]
     metadata_result = {"title":"", "author":""}
@@ -132,19 +130,20 @@ def extract_chapter_and_generate_mp3(tree: etree._ElementTree,  #pylint: disable
                                      output_file_path:str,
                                      mp3_temp_dir:str,
                                      content_file_dir_path:str,
-                                     guide:Dict[str,str],
-                                     language:str) -> List[str]:
-    """Extract id reference from container.xml file and extract chapter text.
+                                     guide:dict[str,str],
+                                     language:str) -> list[str]:
+    """Get a chapter's ID reference and text from the `container.xml` file.
 
     Arguments:
-        tree: The base of the XML tree in epub contents.
-        output_file_path: The path to save the result MP3 file.
-        mp3_temp_dir: The temporary directory path to save MP3 files as the XML tree is parsed.
+        tree: The XML tree's base from the `epub` file's content.
+        output_file_path: The path to save the MP3 file to.
+        mp3_temp_dir: The temporary folder to save MP3 files to as the function parses the XML tree.
         content_file_dir_path: The path to the XML file.
         guide: A map of the guide XML node types and their hyperlink content.
+        language: The content's language.
 
     Returns:
-        A list of the saved MP3 file paths.
+        chapters: A list of the saved MP3 file paths.
     """
     chapters = []
     for idref in tree.xpath("//*[local-name()='package']"
@@ -171,10 +170,9 @@ def extract_chapter_and_generate_mp3(tree: etree._ElementTree,  #pylint: disable
     return chapters
 
 def main():
-    """main function"""
     tool_path: str = os.path.dirname(__file__)
     in_file_path, out_file_path, language = input_tool.get_sys_input(tool_path)
-    chapters: List[str] = []
+    chapters: list[str] = []
 
     m4b.init(BACK_END_TTS)
     with tempfile.TemporaryDirectory() as tmp_dir:

@@ -1,37 +1,36 @@
 """
-file: input_file.py
-description: handling of external input
+Handles user input.
 """
 import sys
 import logging
 import argparse
 import os
 from pathlib import Path
-from typing import Tuple
 
 logger = logging.getLogger(__name__)
 
 SUPPORTED_LANGUAGE = ["it", "en"]
 
 def get_path(path: str) -> Path:
-    """
-    parses the path to a file given by user input
+    """Get a file path if it exists.
+
+    Arguments:
+        path: The path to the file to convert.
     """
     if not os.path.exists(path):
         logger.error("file to read %s does not exist", path)
         sys.exit(1)
     return Path(path)
 
-def get_sys_input(main_path:str, format_output:str="m4b") -> Tuple[str, str, str]:
+def get_sys_input(main_path:str, format_output:str="m4b") -> tuple[str, str, str]:
     """Get input and output path files.
 
     Arguments:
-        main_path: The path of the calling script.
+        main_path: The path of the script that calls this function.
         format_output: The format to save the result file as.
 
     Returns:
-        A tuple of the file supplied by the user at the 
-        command-line and the path the result file is saved to.
+        result: A tuple that comprises the path to the file to convert, the path to save the converted file to, and the language abbreviation of the converted audio file.
     """
     argparser = argparse.ArgumentParser(
             usage='usage: %(prog)s <input.docx> <language>',

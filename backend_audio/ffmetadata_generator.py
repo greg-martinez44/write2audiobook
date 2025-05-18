@@ -1,8 +1,12 @@
 #!/usr/bin/python3
+"""
+Generate metadata for audio files.
+"""
 __doc__ = """
 Goal: generate metadata to inject in m4b format file
 """
 from tinytag import TinyTag
+from typing import Optional
 
 def __get_ffmetadata1(**kwargs) -> str:
     isok = (kwargs['title'] is not None) or (kwargs['author'] is not None)
@@ -25,18 +29,20 @@ def __get_track_times(input_audio_paths:list) -> list:
         starttimes.append(str(int(time)))
     return starttimes
 
-def generate_ffmetadata(input_audio_paths:list,
-                        chapter_titles:list=None,
+def generate_ffmetadata(input_audio_paths:list[str],
+                        chapter_titles:Optional[list[str]]=None,
                         author:str=None,
                         title:str=None) -> str:
     """Generate metadata in ffmpeg format.
 
     Arguments:
-        input_audio_paths: List[str] - path of audiable files
-        chapter_titles:    List[str] - name of chapters defined on each files
+        input_audio_paths: Path of audio files
+        chapter_titles:    Name of chapters in each file
+        author:            The original document's author
+        title:             The original document's title
 
     Returns:
-        metadata: str
+        metadata:          The generated audio file metadata
     """
     starttimes=__get_track_times(input_audio_paths)
     if chapter_titles is None:

@@ -3,7 +3,7 @@ title: Text files
 description: Instructions on converting plain text files to MP3.
 ---
 
-This page explains how to convert plain text files to audio files.
+This page explains how to convert a plain text file to an audio file.
 
 !!! important
     * The text file's encoding must be **UTF-8**.

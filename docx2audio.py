@@ -1,16 +1,16 @@
 #!/usr/bin/python3
 """
-file: [docx2audio.py](https://github.com/deangelisdf/write2audiobook/blob/main/docx2audio.py)
+[`docx2audio.py`](https://github.com/deangelisdf/write2audiobook/blob/main/docx2audio.py)
 
-description: Convert your docx file to audiobook in MP3 format.
+Convert a `.doc` or `.docx` file to MP3 files.
 
 Usage example:
-    `python docx2audio.py document.docx`
+    `python docx2audio.py document.docx en`
 """
 
 import os
 import logging
-from typing import List, Tuple, Union, Generator
+from typing import Union, Generator
 from docx import Document
 from docx.document import Document as _Document
 from docx.oxml.text.paragraph import CT_P
@@ -48,15 +48,13 @@ def iter_block_items(
     parent:Union[Document, _Cell, _Row]
 ) -> Generator[Union[Paragraph, Table], None, None]:
     """
-    Generate a reference to each paragraph and table child within *parent*,
-    in document order. Each returned value is an instance of either Table or
-    Paragraph. *parent* would most commonly be a reference to a main
-    Document object, but also works for a _Cell object, which itself can
-    contain paragraphs and tables.
+    Create a reference to each paragraph and table within a section
+    in document order. Each returned value is either a Table or Paragraph object.
+    The `parent` object can be a Cell, Paragraph, or Table object.
 
     Arguments:
-        parent: The main Word document object, or an individual `_Cell` object.
-    
+        parent: The main document object or an individual `Cell` object.
+
     Yields:
         A Paragraph or Table object.
     """
@@ -68,20 +66,20 @@ def iter_block_items(
             yield Table(child, parent)
 
 def extract_chapters(doc:Document,
-                     style_start_chapter_name:Tuple[str] = TITLE_TOKENS
-                     ) -> List[Union[Paragraph, Table]]:
-    """Extract chapters as list of paragraphs and table, the chapter are structured as
-    Title (with style like Heading1 and Title) and corpus (other styles).
+                     style_start_chapter_name:tuple[str] = TITLE_TOKENS
+                     ) -> list[Union[Paragraph, Table]]:
+    """Get chapters as a list of paragraphs and tables. The chapters comprise a
+    title (with Word styles like Heading1 or Title) and the corpus (with other Word styles).
 
     Arguments:
         doc: The main Word document item.
-        style_start_chapter_name: Possible identifiers for titles in the Word document.
-    
+        style_start_chapter_name: Identifiers for titles in the Word document.
+
     Returns:
-        A list of Paragraph or Table objects.
+        result: A list of Paragraph or Table objects.
     """
-    temp_chapters: List[List[Union[Paragraph, Table]]] = []
-    temp:List[Union[Paragraph, Table]] = []
+    temp_chapters: list[list[Union[Paragraph, Table]]] = []
+    temp:list[Union[Paragraph, Table]] = []
     for block in iter_block_items(doc):
         if isinstance(block, Paragraph):
             if block.style.name in style_start_chapter_name:
@@ -94,15 +92,16 @@ def extract_chapters(doc:Document,
     return [i for i in temp_chapters if len(i)>0]
 
 def get_text_from_paragraph(block: Paragraph, language:str,
-                            idx_list:int) -> Tuple[str, int]:
-    """Generate text starting from Paragraph object
+                            idx_list:int) -> tuple[str, int]:
+    """Get text from a Paragraph object.
+
     Arguments:
-        block (Table)
-        language (str)
-        idx_list (int)
+        block: The Paragraph object to get text from.
+        language: The language of the Paragraph object's content.
+        idx_list: The current count of Paragraph objects.
     Return:
-        str: table text
-        idx_list
+        text: The Paragraph object's content.
+        idx_list: The Paragraph's location in the original document.
     """
     text = ""
     if block.style.name == LIST_ITEM_TOKEN:
@@ -116,12 +115,13 @@ def get_text_from_paragraph(block: Paragraph, language:str,
     return text, idx_list
 
 def get_text_from_table(block: Table, language:str) -> str: #pylint: disable=W0613
-    """Generate text starting from Table object
+    """Get text from a Table object.
+
     Arguments:
-        block (Table)
-        language (str)
+        block: The Table object to get text from.
+        language: The language of the Table object's content.
     Return:
-        str: table text
+        text: The Table object's content
     """
     text = ""
     for row in block.rows:
@@ -132,17 +132,16 @@ def get_text_from_table(block: Table, language:str) -> str: #pylint: disable=W06
         text += "{}\n".format('\t'.join(row_data))
     return text
 
-def get_text_from_chapter(chapter_doc:List[Union[Paragraph, Table]],
-                          language:str=LANGUAGE) -> Tuple[str, str]:
-    """Generate an intermediate representation in textual version,
-    starting from docx format to pure textual, adding sugar context information.
+def get_text_from_chapter(chapter_doc:list[Union[Paragraph, Table]],
+                          language:str=LANGUAGE) -> tuple[str, str]:
+    """Get text from a chapter in the original document.
 
     Arguments:
-        chapter_doc: A list of Paragraphs and Tables.
-        language: The desired language abbreviation.
+        chapter_doc: A list of Paragraph and Table objects.
+        language: The language of the chapter's content.
 
     Returns:
-        A tuple of the object's title and its text content.
+        result: A tuple of the object's title and its text content.
     """
     title_str = chapter_doc[0].text
     text = f"{TITLE_KEYWORD[language]}: {title_str}.\n"
@@ -156,11 +155,10 @@ def get_text_from_chapter(chapter_doc:List[Union[Paragraph, Table]],
     return text, title_str
 
 def main():
-    """main function"""
     in_file_path, out_file_path, language = input_tool.get_sys_input(os.path.dirname(__file__))
     chapters = []
-    chapters_path: List[str] = []
-    title_list:List[str] = []
+    chapters_path: list[str] = []
+    title_list:list[str] = []
 
     m4b.init(BACK_END_TTS)
 

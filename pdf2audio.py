@@ -1,11 +1,15 @@
 #!/usr/bin/python3
 """
-file: [pdf2audio.py](https://github.com/deangelisdf/write2audiobook/blob/main/pdf2audio.py)
+[`pdf2audio.py`](https://github.com/deangelisdf/write2audiobook/blob/main/pdf2audio.py)
 
-description: Convert your pdf to audiobook in MP3 format. <experiment>
+Convert a `.pdf` file to an MP3 file. <experiment>
 
 Usage example:
-    `python pdf2audio.py document.pdf`
+    `python pdf2audio.py document.pdf en`
+
+!!! warning
+    This module is experimental.
+
 """
 import os
 import re
@@ -22,8 +26,15 @@ BACK_END_TTS = m4b.get_back_end_tts()
 PATTERN_REFERENCE_STR = r"\[[0-9]+(, [0-9]+)*\]|\([0-9]+(, [a-zA-Z0-9]+)+\)"
 REGEX_REFERENCE = re.compile(PATTERN_REFERENCE_STR)
 
-def read_cff(cff_data):
-    """Decompile CFF font format"""
+def read_cff(cff_data: dict) -> dict:
+    """Decompile CFF fonts.
+
+    Arguments:
+        cff_data: The CFF font file's content.
+
+    Returns:
+        cff_font_set: The top dictionary from the CFF font file's content.
+    """
     cff_data_io = BytesIO(cff_data)
     cff_font_set = CFFFontSet()
     cff_font_set.decompile(cff_data_io, None)
@@ -44,8 +55,15 @@ def __add_family_name(fonts:dict)->dict:
         result[font_name] = {'family-name': family_name}
     return result
 
-def get_fonts(pdf_doc:utils.pymupdf.Document):
-    """..."""
+def get_fonts(pdf_doc:utils.pymupdf.Document) -> dict:
+    """Get the fonts used in the original document.
+
+    Arguments:
+        pdf_doc: The original PDF document.
+
+    Returns:
+        fonts: A map of font names and their properties.
+    """
     xref_visited = []
     fonts = {}
     for page in pdf_doc:
@@ -67,15 +85,27 @@ def get_fonts(pdf_doc:utils.pymupdf.Document):
     return fonts
 
 def filter_reference(text_with_ref:str)->str:
-    """remove refence from text
-    Args:
-        text_with_ref (str): the string contain all the text
+    """Remove a refence, like a footnote or citation, from a text segment.
+
+    Arguments:
+        text_with_ref: The text segment that has a reference.
+
     Returns:
-        str: the string contain all text without refences"""
+        result: The text segment without the reference.
+    """
     return REGEX_REFERENCE.sub('', text_with_ref)
 
 def get_chapter_text(pdf_doc:utils.pymupdf.Document, pattern_header:str, pattern_footer:str)->list:#pylint: disable=R0914,R1260
-    """..."""
+    """Get text from a PDF document.
+
+    Arguments:
+        pdf_doc: The original PDF document.
+        pattern_header: A regular expression pattern that matches the PDF document's header.
+        pattern_footer: A regular expression pattern that matches the PDF document's footer.
+
+    Returns:
+        extracted_text: The PDF document's content.
+    """
     extracted_text = []
     block_prediction = ""
     prev_font = None
@@ -108,10 +138,16 @@ def get_chapter_text(pdf_doc:utils.pymupdf.Document, pattern_header:str, pattern
                     prev_font = (font_name, font_size)
     return extracted_text
 
-def cluster_text(raw_text:list, fonts:dict)->dict:
-    """Prototype, it shall organize the text extracted before
-    in order to have less possible instance not correlated.
-    desiderable: [{chapter title},{chapter text},{chapter title},...]"""
+def cluster_text(raw_text:list, fonts:dict)->list:
+    """Groups text blocks based on their font and size.
+
+    Arguments:
+        raw_text: A list of text blocks.
+        fonts: A map of font names and their properties.
+
+    Returns:
+        clustered_text: A list of grouped text blocks.
+    """
     clustered_text = []
     print(fonts)
     if len(raw_text)<=1:
@@ -125,18 +161,30 @@ def cluster_text(raw_text:list, fonts:dict)->dict:
             clustered_text.append(rtext)
     return clustered_text
 
-def get_metadata(pdf_doc):  #pylint: disable=W0613
-    """prototype it shall take metadata by the file"""
+def get_metadata(pdf_doc: utils.pymupdf.Document) -> dict[str,str]:  #pylint: disable=W0613
+    """Get metadata of original PDF document.
+
+    Arguments:
+        pdf_doc: The original PDF document.
+
+    Returns:
+        metadata: The PDF document's metadata.
+    """
     return {"title":None, "author":None}
 
 def get_chapters(text_clustered:list)->list:
-    """protype it shall return a list of strings
-    where each one is a chapter"""
+    """Get a list of text grouped by chapter.
+
+    Arguments:
+        text_clustered: A list of text blocks.
+
+    Returns:
+        text_ret: A list of text grouped by chapter.
+    """
     text_ret = ' '.join([i['txt'] for i in text_clustered])
     return [text_ret]
 
 def main():#pylint: disable=R0914
-    """main function"""
     in_file_path, out_file_path, language = input_tool.get_sys_input(os.path.dirname(__file__))
     PATTERN_HEADER = r"arXiv:2310\.03605v3  \[cs.CR\]  29 Nov 2023"  #pylint: disable=C0103
     PATTERN_FOOTER = r"pag. [0-9]+Phenomena Journal \| www\.phenomenajournal.itLuglio-Dicembre 2021 \| Volume 3 \|( Numero [0-9]+ \|)? Ipotesi e metodi di studio"  #pylint: disable=C0103,C0301

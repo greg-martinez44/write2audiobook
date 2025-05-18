@@ -38,6 +38,7 @@ nav:
     - ebook2audio: reference/ebook2audio.md
     - pptx2audio: reference/pptx2audio.md
     - txt2audio: reference/txt2audio.md
+    - pdf2audio: reference/pdf2audio.md
   - About:
     - Release Notes: about/release-notes.md
     - Contributing: about/contributing.md
