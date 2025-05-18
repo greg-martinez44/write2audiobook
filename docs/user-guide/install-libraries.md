@@ -76,7 +76,7 @@ deactivate
 
 ## Install the required libraries
 
-The Write2Audio project requires several thrid-party Python libraries. The [`requirements.txt`][2] file lists these libraries.
+The Write2Audio project requires several thrid-party Python libraries. To see the list of required libraries, open the [`requirements.txt`][2] file.
 
 Install the libraries from the `requirements.txt` file:
 
