@@ -7,12 +7,9 @@ This page explains how to download and update the Write2Audiobook scripts.
 
 ## Download the scripts
 
-Clone the [Write2Audiobook GitHub repository][1] to download the scripts to your computer:
+Clone the [Write2Audiobook GitHub repository][1] to download the scripts:
 
 1. Open a terminal window.
-
-    * If you use Windows, open a Command Prompt window.
-
 1. Run the following command to clone the repository:
 
     ```command
@@ -26,16 +23,13 @@ This creates a folder on your computer with all the scripts. The folder's name i
 Pull the latest version of the [Write2Audiobook GitHub repository][1] to update the scripts:
 
 1. Open a terminal window.
-
-    * If you use Windows, open a Command Prompt window.
-
 1. Go to the `write2audiobook` folder.
 
     ```console
     cd write2audiobook
     ```
 
-1. Run the following command to update the scripts on your computer:
+1. Run the following command to update the scripts:
 
     ```command
     git pull

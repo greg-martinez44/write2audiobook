@@ -15,9 +15,6 @@ Before you begin:
 ## Convert a text file to an audio file
 
 1. Open a terminal window.
-
-    * If you use Windows, open a Command Prompt window.
-
 1. Clone the Write2Audiobook repo and go to the project's root directory.
 
     ```console
@@ -27,25 +24,25 @@ Before you begin:
 
 1. Run one of the scripts to convert a text file to an audio file.
 
-    * To convert an ebook (epub) to an English-language audio file:
+    * To convert an ebook (`.epub`) to an English-language audio file:
 
       ```console
       python3 ebook2audio.py book.epub en
       ```
 
-    * To convert a plain text file (txt) to an English-language audio file:
+    * To convert a plain text file (`.txt`) to an English-language audio file:
 
       ```console
       python3 txt2audio.py text.txt en
       ```
 
-    * To convert a Microsoft PowerPoint presentation (pptx) to an English-language audio file:
+    * To convert a Microsoft PowerPoint presentation (`.pptx`) to an English-language audio file:
 
       ```console
       python3 pptx2audio.py presentation.pptx en
       ```
 
-    * To convert a Microsoft Word document (doc or docx) to an English-language audio file:
+    * To convert a Microsoft Word document (`.doc` or `.docx`) to an English-language audio file:
 
       ```console
       python3 docx2audio.py document.docx en

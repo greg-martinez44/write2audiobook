@@ -26,9 +26,6 @@ Virtual environments keep workspaces clean and isolated. They help to avoid conf
 Create a virtual environment for your Write2Audiobook project:
 
 1. Open a terminal window.
-
-    * If you use Windows, open a Command Prompt window.
-
 1. Go to the Write2Audiobook project's root folder.
 
     ```console
@@ -81,9 +78,6 @@ The Write2Audio project requires several thrid-party Python libraries. To see th
 Install the libraries from the `requirements.txt` file:
 
 1. Open a terminal window.
-
-    * If you use Windows, open a Command Prompt window.
-
 1. Go to the Write2Audiobook project's root folder.
 
     ```console
