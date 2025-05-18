@@ -56,6 +56,7 @@ markdown_extensions:
 
 plugins:
   - search
+  - git-revision-date-localized
   - mkdocstrings:
       default_handler: python
       handlers:

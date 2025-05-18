@@ -1,6 +1,6 @@
 # How to contribute to the Write2Audiobook documentation
 
-The Write2Audiobook documentation uses [Mkdocs](https://github.com/mkdocs/mkdocs/tree/master) and the [Materials](https://github.com/squidfunk/mkdocs-material/tree/master) theme. These tools use simple Markdown with a handful of extensions to create a suite of static sites.
+The Write2Audiobook documentation uses [Mkdocs](https://github.com/mkdocs/mkdocs/tree/master) and the [Materials](https://github.com/squidfunk/mkdocs-material/tree/master) theme. These tools use Markdown with extensions to create static sites.
 
 To learn how to write Markdown, see [Material's reference page](https://squidfunk.github.io/mkdocs-material/reference/).
 
@@ -15,7 +15,7 @@ mkdocs serve
 
 ### Write documentation in Visual Studio Code with Markdown extensions
 
-Use the `markdownlint` VS Code extension to write documentation. The `.markdownlint.rc` file in the project's root helps enforce consistency between writers.
+Use the `markdownlint` VS Code extension to write documentation. The extension and the `.markdownlint.rc` file in the project's root folder help enforce consistency between writers.
 
 ### Use front matter
 
@@ -28,7 +28,7 @@ description: The description of the page.
 ---
 ```
 
-### Don't use the single `#` header level.
+### Don't use the single `#` header level
 
 The title of the page comes from the YAML front matter. A second first level heading is redundant.
 
