@@ -3,43 +3,51 @@ title: Install libraries
 description: Instructions on how to install the required libraries for the Write2Audiobook project.
 ---
 
-This page explains how to install the libraries and packages required to run the Write2Audiobook scripts.
+This page explains how to install the packages that you need to run the Write2Audiobook scripts.
 
 ## Prerequisites
 
-All Write2Audiobook scripts are written in Python. If you don't already have Python installed on your computer, see the
-[Python Beginner's Guide](https://wiki.python.org/moin/BeginnersGuide/Download) for instructions on downloading
-and installing Python.
+All Write2Audiobook scripts are Python scripts. To run them, you need to have Python version 3.7 or higher installed on your computer.
+
+Run the following command to see which Python version you have installed on your computer:
+
+```console
+python -v
+```
+
+If the command doesn't work or if your Python version's too low, install a new Python version. See the [Python Beginner's Guide][1] to learn how to download and install Python.
 
 ## Virtual environments
 
-Virtual environments keep workspaces clean and avoid potential conflicts with previously
-install libraries. This keeps your development environments isolated. If something happens to
-a library in a virtual environment, you've contained the damage to that one folder.
+Virtual environments keep workspaces clean and isolated. They help to avoid conflicts with other libraries that you may install for other projects. If something happens to a library in a virtual environment, it keeps the damage to just one folder. That means you can uninstall any broken libraries with no impact on other workspaces.
 
 ### Create a virtual environment
 
 Create a virtual environment for your Write2Audiobook project:
 
-1. In your terminal, go to the Write2Audiobook project's root directory.
+1. Open a terminal window.
+
+    * If you use Windows, open a Command Prompt window.
+
+1. Go to the Write2Audiobook project's root folder.
 
     ```console
     cd write2audiobook
     ```
 
-1. Run the following command:
+1. Run the following command to create the virtual environment:
 
     ```console
     python3 -m venv .venv
     ```
 
-    This creates a virtual environment in new folder called `.venv`.
+This creates a virtual environment in new folder called `.venv`.
 
-### Activate a virtual environment
+### Activate the virtual environment
 
-Run the following code to activate a virtual environment:
+Activate the virtual environment:
 
-=== "Powershell"
+=== "PowerShell"
     ```powershell
     .venv\Scripts\Activate.ps1
     ```
@@ -54,13 +62,13 @@ Run the following code to activate a virtual environment:
     source .venv/bin/activate
     ```
 
-When your virtual environment is active, you'll see `(.venv)` in front of your terminal's prompt.
+When your virtual environment is active, you see `(.venv)` in front of your terminal's prompt.
 
 ![venv-source-example](../img/venv-source-example.png)
 
-### Exit a virtual environment
+### Exit the virtual environment
 
-After you have finished working in the Write2Audiobook project, exit the virtual environment with the following command:
+When you're done working, exit the virtual environment:
 
 ```console
 deactivate
@@ -68,28 +76,41 @@ deactivate
 
 ## Install the required libraries
 
-The Write2Audio project requires several Python libraries to run its scripts. The
-[`requirements`](https://github.com/deangelisdf/write2audiobook/blob/main/requirements) file lists these libraries.
+The Write2Audio project requires several thrid-party Python libraries. The [`requirements.txt`][2] file lists these libraries.
 
-Install the libraries from the `requirements` file:
+Install the libraries from the `requirements.txt` file:
+
+1. Open a terminal window.
+
+    * If you use Windows, open a Command Prompt window.
+
+1. Go to the Write2Audiobook project's root folder.
+
+    ```console
+    cd write2audiobook
+    ```
 
 1. [Activate your virtual environment](#activate-a-virtual-environment).
-1. Run the following command:
+1. Run the following command to install the required libraries:
 
     ```console
-    python3 -m pip install -r requirements
+    python3 -m pip install -r requirements.txt
     ```
 
-1. Confirm the installation succeeded by looking at the list of installed libraries.
+You get a confirmation message when the installation is complete.
 
-    ```console
-    python3 -m pip list
-    ```
+To see a list of the libraries you installed this way, run the following command:
 
-You'll get a confirmation message when the installation is complete.
+```console
+python3 -m pip list
+  ```
 
 !!! important
-    If you're on a Linux system, you must install additional system packages. Install these packages with the following command:
+    If you use a Linux system, you must install three additional system packages. Run the following command to install these packages:
+
     ```console
     sudo apt update && sudo apt install espeak ffmpeg libespeak1 -y
     ```
+
+[1]: https://wiki.python.org/moin/BeginnersGuide/Download
+[2]: https://github.com/deangelisdf/write2audiobook/blob/main/requirements.txt

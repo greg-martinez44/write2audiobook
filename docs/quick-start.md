@@ -7,13 +7,16 @@ Follow this tutorial to learn how to use Write2Audiobook.
 
 ## Prerequisites
 
-Before you begin, [download the scripts from GitHub][1] and [install the required packages][2].
+Before you begin:
+
+1. [Download the scripts from GitHub][1]
+1. [Install the required packages][2]
 
 ## Convert a text file to an audio file
 
 1. Open a terminal window.
 
-  * On Windows, use Command Prompt.
+    * If you use Windows, open a Command Prompt window.
 
 1. Clone the Write2Audiobook repo and go to the project's root directory.
 
@@ -24,29 +27,29 @@ Before you begin, [download the scripts from GitHub][1] and [install the require
 
 1. Run one of the scripts to convert a text file to an audio file.
 
-    To convert an ebook (epub) to an English-language audio file:
+    * To convert an ebook (epub) to an English-language audio file:
 
-    ```console
-    python3 ebook2audio.py book.epub en
-    ```
+      ```console
+      python3 ebook2audio.py book.epub en
+      ```
 
-    To convert a plain text file (txt) to an English-language audio file:
+    * To convert a plain text file (txt) to an English-language audio file:
 
-    ```console
-    python3 txt2audio.py text.txt en
-    ```
+      ```console
+      python3 txt2audio.py text.txt en
+      ```
 
-    To convert a Microsoft PowerPoint presentation (pptx) to an English-language audio file:
+    * To convert a Microsoft PowerPoint presentation (pptx) to an English-language audio file:
 
-    ```console
-    python3 pptx2audio.py presentation.pptx en
-    ```
+      ```console
+      python3 pptx2audio.py presentation.pptx en
+      ```
 
-    To convert a Microsoft Word document (doc or docx) to an English-language audio file:
+    * To convert a Microsoft Word document (doc or docx) to an English-language audio file:
 
-    ```console
-    python3 docx2audio.py document.docx en
-    ```
+      ```console
+      python3 docx2audio.py document.docx en
+      ```
 
 ## Play the audio file
 
